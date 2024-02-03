@@ -52,6 +52,7 @@ public class ProductTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testProductWithNegativePrice() {
+
         new TaxFreeProduct("Mandarynki", new BigDecimal("-1.00"));
     }
 }
