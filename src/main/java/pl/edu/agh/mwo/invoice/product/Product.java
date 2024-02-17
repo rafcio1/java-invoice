@@ -10,13 +10,13 @@ public abstract class Product {
     private final BigDecimal taxPercent;
 
     protected Product(String name, BigDecimal price, BigDecimal tax) {
-        if (name == null|| name.equals("")) {
+        if (name == null || name.equals("")) {
             throw new IllegalArgumentException("please add ");
         }
         if (price == null || price.equals("")) {
             throw new IllegalArgumentException("please add ");
         }
-        if(price==null || price.doubleValue()<0){
+        if (price == null || price.doubleValue() < 0) {
             throw new IllegalArgumentException(" is negative price");
         }
         this.name = name;
@@ -24,6 +24,7 @@ public abstract class Product {
         this.taxPercent = tax;
 
     }
+
     public String getName() {
         return name;
     }
@@ -39,6 +40,6 @@ public abstract class Product {
     public BigDecimal getPriceWithTax() {
         return price.multiply(taxPercent).add(price);
 
-
     }
+
 }
