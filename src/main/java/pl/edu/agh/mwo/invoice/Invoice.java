@@ -41,4 +41,52 @@ public class Invoice {
         }
         return totalGross;
     }
-}
+    public BigDecimal getInvoiceNumber() {
+        BigDecimal totalInvoice = BigDecimal.ZERO;
+        for (Product product : products.keySet()) {
+            BigDecimal quantity = new BigDecimal(products.get(product));
+            totalInvoice = totalInvoice.add(product.getPrice().multiply(quantity));
+        }
+        return totalInvoice;
+
+    }
+
+    public String getProductList() {
+        StringBuilder productList = new StringBuilder();
+        productList.append("Invoice Number: ").append(getInvoiceNumber()).append("\n");
+        int positionCount = 1;
+
+        Map<Product, Integer> groupedProducts = new HashMap<>();
+        for (Map.Entry<Product, Integer> entry : products.entrySet()) {
+            Product product = entry.getKey();
+            Integer quantity = entry.getValue();
+            groupedProducts.put(product, groupedProducts.getOrDefault(product, 0) + quantity);
+        }
+        for (Map.Entry<Product, Integer> entry : groupedProducts.entrySet()) {
+            Product product = entry.getKey();
+            Integer quantity = entry.getValue();
+
+            BigDecimal totalPrice = product.getPriceWithTax().multiply(new BigDecimal(quantity));
+
+            productList.append("Position ").append(positionCount).append(":\n");
+            productList.append("  Name: ").append(product.getName()).append("\n");
+            productList.append("  Quantity: ").append(quantity).append("\n");
+            productList.append("  Price: ").append(product.getPriceWithTax()).append("\n");
+            productList.append("  Total Price: ").append(totalPrice).append("\n");
+
+            positionCount++;
+        }
+        productList.append("Number of positions: ").append(groupedProducts.size()).append("\n");
+        return productList.toString();
+    }
+
+    public void printInvoice() {
+        String productList = getProductList();
+        System.out.println("=== Invoice ===");
+        System.out.println(productList);
+        System.out.println("===============");
+    }
+
+    }
+
+
